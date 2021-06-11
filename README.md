@@ -4,7 +4,7 @@
 
 This repository has a single Python script. `upload.py` allows you to securely transmit a file from your local computer to a destination host using the [SFTP protocol](https://www.digitalocean.com/community/tutorials/how-to-use-sftp-to-securely-transfer-files-with-a-remote-server).
 
-This repository uses the `upload.py` script to transmit webcamera images from a client computer to a remote server.
+The purpose of the repository is to use the `upload.py` script to transmit webcamera images from a client computer to a remote server.
 
 ## Developer Information 🙋🏼‍♂️
 
