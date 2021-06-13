@@ -1,10 +1,12 @@
 # Webcamera upload 📷
 
-## What is it ❓
+## Description 📄
 
-This repository has a single Python script. `upload.py` allows you to securely transmit a file from your local computer to a destination host using the [SFTP protocol](https://www.digitalocean.com/community/tutorials/how-to-use-sftp-to-securely-transfer-files-with-a-remote-server).
+This repository allows you to securely transmit a file from your local computer to a destination host using the [SFTP protocol](https://www.digitalocean.com/community/tutorials/how-to-use-sftp-to-securely-transfer-files-with-a-remote-server).
 
-The purpose of the repository is to use the `upload.py` script to transmit webcamera images from a client computer to a remote server.
+A user interacts with the Bash script `upload.sh` by giving it parameters (more on that below). The Bash script then sets up a Python virtual environment, and executes the Python script `upload.py` with parameters provided to the Bash script.
+
+The purpose of this particular repository is to transmit webcamera images from a client computer to a remote server, but the repository can transmit any file.
 
 ## Developer Information 🙋🏼‍♂️
 
@@ -26,6 +28,8 @@ As you can see from the sample file above, this script requires you to know the 
 
 ## Freezing requirements ❄️
 
+When developing, you may need to install Python modules. After pushing to GitHub, remember to **freeze** the requirements _inside_ the virtual environment.
+
 **`Terminal`**
 
 ```shell
@@ -33,6 +37,8 @@ python3 -m pip freeze > requirements.txt
 ```
 
 ## Virtual environment 🌳
+
+Note that all of this is later handled by the Bash script `upload.sh`.
 
 **`Terminal`**
 
@@ -50,4 +56,23 @@ source venv/bin/activate
 
 # Install requirements
 python3 -m pip install -r requirements.txt
+```
+
+## Setting up and running the cron job 🔁
+
+If you do not know how `cron` works, you can read more about it using [this link](https://en.wikipedia.org/wiki/Cron).
+
+**`Terminal`**
+
+```shell
+# Open the cron table without root permissions
+crontab -e
+
+# OR, if needed
+
+# Open the cron table with root permissions
+sudo crontab -e
+
+# Add cron job to cron table
+*/15 * * * * bash upload.sh local_file_path destination_directory >> ~/cron-logs/cron.log 2>&1
 ```
