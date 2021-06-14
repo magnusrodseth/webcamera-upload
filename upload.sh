@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
 
-echo "----- Running \"Webcamera upload\" script -----"
+# Current time
+now=$(date)
+
+echo "> 📷 Running \"Webcamera upload\" script"
+echo "> 🕓 Current date: $now"
 
 # Print empty line
 echo
 
 create_venv_if_not_exists() {
+    
     venv_dir="./venv"
     
     if [ -d $venv_dir ]; then
@@ -20,6 +25,9 @@ create_venv_if_not_exists() {
     
     sleep 1
     
+    # Print empty line
+    echo
+    
     # Install modules
     $(which python3) -m pip install -r requirements.txt
     
@@ -28,6 +36,8 @@ create_venv_if_not_exists() {
 
 # Activates the relevant Python virtual environment
 activate_venv() {
+    # Set current working directory in order to find the proper Python file
+    cd "$(dirname "$0")"
     
     create_venv_if_not_exists
     
@@ -55,6 +65,9 @@ activate_venv() {
     fi;
     
     sleep 1
+    
+    # Print empty line
+    echo
     
     # Run Python script for uploading file using SFTP
     $(which python3) upload.py $1 $2
