@@ -73,6 +73,9 @@ crontab -e
 # Open the cron table with root permissions
 sudo crontab -e
 
+# Remove everything in crontab
+crontab -r
+
 # Add cron job to cron table
 */15 * * * * bash upload.sh local_file_path destination_directory >> ~/cron-logs/cron.log 2>&1
 ```
