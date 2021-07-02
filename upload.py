@@ -21,17 +21,17 @@ def upload(argv):
 
     # argv should only process 2 arguments
     if len(argv) != 2:
-        print("> ❌ Invalid input. Please use the following format:")
+        print("> Invalid input. Please use the following format:")
         print(f'$ python3 upload.py local_file_path destination_directory')
         return False
 
     local_file_path = argv[0]
     destination_directory = argv[1]
 
-    print(f'> 📂 Local file path: {local_file_path}')
-    print(f'> 📂 Destination directory: {destination_directory}')
+    print(f'> Local file path: {local_file_path}')
+    print(f'> Destination directory: {destination_directory}')
 
-    print(f'> 🔗 Establishing SFTP connection with destination host...')
+    print(f'> Establishing SFTP connection with destination host...')
 
     with pysftp.Connection(
             host=os.environ.get('HOSTNAME'),
@@ -40,7 +40,7 @@ def upload(argv):
             private_key=os.environ.get('PRIVATE_KEY_PATH')
     ) as sftp:
         with sftp.cd(destination_directory):
-            print(f'> 📂 Uploading file to destination...')
+            print(f'> Uploading file to destination...')
             sftp.put(local_file_path)  # Upload file
 
             return True
@@ -51,7 +51,7 @@ if __name__ == '__main__':
     succeeded = upload(sys.argv[1:])
 
     print(
-        "> ✅ Successfully uploaded file!"
+        "> Successfully uploaded file!"
         if succeeded
-        else "> ❌ An error occurred when trying to upload the file!"
+        else "> An error occurred when trying to upload the file!"
     )

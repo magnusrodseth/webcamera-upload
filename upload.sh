@@ -3,21 +3,21 @@
 # Current time
 now=$(date)
 
-echo "> 📷 Running \"Webcamera upload\" script"
-echo "> 🕓 Current date: $now"
+echo "> Running \"Webcamera upload\" script"
+echo "> Current date: $now"
 
 # Print empty line
 echo
 
 create_venv_if_not_exists() {
     
-    venv_dir="./venv"
+    venv_dir="venv"
     
     if [ -d $venv_dir ]; then
-        echo "> ⏳ Directory $venv_dir already exists. Ensuring that all modules are installed..."
+        echo "> Directory $venv_dir already exists. Ensuring that all modules are installed..."
         
     else
-        echo "> ⏳ Directory $venv_dir does not exist. Initializing virtual environment..."
+        echo "> Directory $venv_dir does not exist. Initializing virtual environment..."
         # Create Python virtual environment called 'venv'
         $(which python3) -m venv venv
         
@@ -44,22 +44,22 @@ activate_venv() {
     # Determine operating system
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
         # Linux
-        echo "> 💻 Operating system: Linux / GNU"
+        echo "> Operating system: Linux / GNU"
         source venv/bin/activate
         
         elif [[ "$OSTYPE" == "darwin"* ]]; then
         # Mac OSX
-        echo "> 💻 Operating system: MacOS"
+        echo "> Operating system: MacOS"
         source venv/bin/activate
         
         elif [[ "$OSTYPE" == "msys" ]]; then
         # Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
-        echo "> 💻 Operating system: Windows"
+        echo "> Operating system: Windows"
         venv\\Scripts\\activate.bat
         
         elif [[ "$OSTYPE" == "win32" ]]; then
         # I'm not sure this can happen.
-        echo "> 💻 Operating system: Windows"
+        echo "> Operating system: Windows"
         venv\\Scripts\\activate.bat
         
     fi;
