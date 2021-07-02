@@ -36,7 +36,8 @@ def upload(argv):
     with pysftp.Connection(
             host=os.environ.get('HOSTNAME'),
             username=os.environ.get('USERNAME'),
-            password=os.environ.get('PASSWORD')
+            private_key_pass=os.environ.get('PASSWORD'),
+            private_key=os.environ.get('PRIVATE_KEY_PATH')
     ) as sftp:
         with sftp.cd(destination_directory):
             print(f'> 📂 Uploading file to destination...')

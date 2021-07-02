@@ -21,7 +21,8 @@ A very important prerequisite in order for `upload.py` to work is setting correc
 ```env
 HOSTNAME=destination_ip_address
 USERNAME=destination_username
-PASSWORD=destination_password
+PASSWORD=private_key_password
+PRIVATE_KEY_PATH=~/.ssh/rsa_key_name
 ```
 
 As you can see from the sample file above, this script requires you to know the listed information about your destination host.
@@ -57,6 +58,44 @@ source venv/bin/activate
 # Install requirements
 python3 -m pip install -r requirements.txt
 ```
+
+## Public / Private Key Generation 🔐
+
+Start by generating an SSH key-pair on the client computer.
+
+```shell
+# Generate public-private key pair
+ssh-keygen
+
+# Give your key pair a descriptive name
+
+# On MacOS / Linux
+cat ~/.ssh/your_key_pair.pub
+
+# OR
+
+# On Windows PowerShell
+Get-Content C:\.ssh\your_key_pair.pub
+```
+
+In order to SFTP files from a client IP address to a destination IP address, the destination IP address must have the client public key.
+Send this public key to the destination IP address.
+
+Have the destination IP address add the key in `~/.ssh/known_hosts` with the following format:
+
+```shell
+client_ip_address ssh-rsa client_public_key
+```
+
+Then have the destination IP address add the key in `~/.ssh/authorized_keys`. Simply copy the client public key at the bottom of the `authorized_keys` file.
+
+On the client IP address, open your terminal add type `ssh-keyscan destination_ip_address`. Add content of `ssh-rsa` to client IP address' `~/.ssh/known_hosts` on the following format:
+
+```shell
+destination_ip_address ssh-rsa copy_pasted_value_from_ssh-keyscan
+```
+
+The key-pairs should now be set up properly for the shell script to successfully upload files!
 
 ## Setting up and running the cron job 🔁
 
