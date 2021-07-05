@@ -1,0 +1,1 @@
+* * * * * root /upload.sh test.txt . > ~/cron/cron.log 2>&1

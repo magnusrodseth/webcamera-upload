@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  upload:
+    container_name: sobekkseter-upload
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 7000:7000
+    volumes:
+      - ~/.ssh/sobekkseter_rsa:/root/.ssh/sobekkseter_rsa # Persist host's private key in container
+    depends_on:
+      - python
+    restart: always
+
+  python:
+    container_name: sobekkseter-python
+    image: python:3.8-slim
+    tty: true # Dont stop container
+    restart: always
