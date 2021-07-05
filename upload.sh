@@ -1,32 +1,34 @@
 #!/usr/bin/env bash
 
+print() {
+    # Print content
+    echo $1
+    
+    # Print new line
+    echo
+}
+
 # Current time
 now=$(date)
 
-echo "> Running \"Webcamera upload\" script"
-echo "> Current date: $now"
-
-# Print empty line
-echo
+print "> Running \"Webcamera upload\" script"
+print "> Current date: $now"
 
 create_venv_if_not_exists() {
     
     venv_dir="venv"
     
     if [ -d $venv_dir ]; then
-        echo "> Directory $venv_dir already exists. Ensuring that all modules are installed..."
+        print "> Directory $venv_dir already exists. Ensuring that all modules are installed..."
         
     else
-        echo "> Directory $venv_dir does not exist. Initializing virtual environment..."
+        print "> Directory $venv_dir does not exist. Initializing virtual environment..."
         # Create Python virtual environment called 'venv'
         $(which python3) -m venv venv
         
     fi;
     
     sleep 1
-    
-    # Print empty line
-    echo
     
     # Install modules
     $(which python3) -m pip install -r requirements.txt
@@ -44,30 +46,27 @@ activate_venv() {
     # Determine operating system
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
         # Linux
-        echo "> Operating system: Linux / GNU"
+        print "> Operating system: Linux / GNU"
         source venv/bin/activate
         
         elif [[ "$OSTYPE" == "darwin"* ]]; then
         # Mac OSX
-        echo "> Operating system: MacOS"
+        print "> Operating system: MacOS"
         source venv/bin/activate
         
         elif [[ "$OSTYPE" == "msys" ]]; then
         # Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
-        echo "> Operating system: Windows"
+        print "> Operating system: Windows"
         venv\\Scripts\\activate.bat
         
         elif [[ "$OSTYPE" == "win32" ]]; then
         # I'm not sure this can happen.
-        echo "> Operating system: Windows"
+        print "> Operating system: Windows"
         venv\\Scripts\\activate.bat
         
     fi;
     
     sleep 1
-    
-    # Print empty line
-    echo
     
     # Run Python script for uploading file using SFTP
     $(which python3) upload.py $1 $2

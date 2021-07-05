@@ -1,0 +1,5 @@
+# Custom ignores
+README.md
+venv
+.vscode
+.idea
