@@ -1,1 +1,1 @@
-* * * * * root /upload.sh test.txt . > ~/cron/cron.log 2>&1
+* * * * * /upload.sh /media/webcam.jpg ../../var/www/sobekkseter/src/public/img > /cron/cron.log 2>&1
