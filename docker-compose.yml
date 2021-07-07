@@ -11,13 +11,13 @@ services:
     ports:
       - 7000:7000
     volumes:
-      - ~/.ssh/sobekkseter_rsa:/root/.ssh/sobekkseter_rsa # Persist host's private key in container
+      - path_to_private_key_on_host:path_to_private_key_on_container # Persist host's private key in container
+      - path_to_file_on_host:path_to_file_on_container # Persist most recent webcam image
     depends_on:
       - python
-    restart: always
+    restart: on-failure
 
   python:
     container_name: sobekkseter-python
     image: python:3.8-slim
-    tty: true # Dont stop container
-    restart: always
+    restart: on-failure
