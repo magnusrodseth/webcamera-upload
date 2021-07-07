@@ -4,7 +4,7 @@
 
 This repository allows you to securely transmit a file from your local computer to a destination host using the [SFTP protocol](https://www.digitalocean.com/community/tutorials/how-to-use-sftp-to-securely-transfer-files-with-a-remote-server).
 
-A user interacts with the Bash script `upload.sh` by giving it parameters (more on that below). The Bash script then sets up a Python virtual environment, and executes the Python script `upload.py` with parameters provided to the Bash script.
+The user preferably sets up a cronjob to run `docker restart webcam-upload`. The Docker container then runs the Bash script `upload.sh` by giving it parameters (more on that below). The Bash script sets up a Python virtual environment, and executes the Python script `upload.py` with parameters provided to the Bash script.
 
 The purpose of this particular repository is to transmit webcamera images from a client computer to a remote server, but the repository can transmit any file.
 
@@ -14,18 +14,37 @@ Developed by Magnus Rødseth and Julian Grande, summer 2021.
 
 ## Setting environment variables ❗️
 
-A very important prerequisite in order for `upload.py` to work is setting correct environment variables before running the script. Start by creating a file called `.env` in the repository directory (`webcamera-upload`).
+A very important prerequisite in order for the workflow to function correctly is setting correct environment variables before running the script. Start by creating a file called `.env` in the repository directory (`webcamera-upload`).
 
 **`webcamera-upload/.env`**
 
 ```env
-HOSTNAME=destination_ip_address
+HOSTNAME=destination_ip_adreess
 USERNAME=destination_username
-PASSWORD=private_key_password
-PRIVATE_KEY_PATH=~/.ssh/rsa_key_name
+PRIVATE_KEY_PATH=your_private_key_path
+PASSWORD=your_password
 ```
 
 As you can see from the sample file above, this script requires you to know the listed information about your destination host.
+
+## Running the application for the first time ✅
+
+Clone the repository.
+
+Ensure you have Docker installed and running successfully.
+
+Navigate to the repository directory (`webcamera-upload`).
+
+Run the following command to spin up the Docker multi-container for the first time: `docker-compose up`.
+
+Now, set up a cronjob with desired interval and an instruction to restart the Docker multi-container after this interval. An example can be seen below:
+
+```shell
+# Uploads webcam image at minute 2, 17, 32, and 47 past every hour from 8 through 16
+02,17,32,47 8-16 * * * docker restart sobekkseter-upload
+```
+
+If you want to run this workflow without maintaining it, you can set up cron to start running when your computer boots up.
 
 ## Freezing requirements ❄️
 
@@ -89,7 +108,7 @@ client_ip_address ssh-rsa client_public_key
 
 Then have the destination IP address add the key in `~/.ssh/authorized_keys`. Simply copy the client public key at the bottom of the `authorized_keys` file.
 
-On the client IP address, open your terminal add type `ssh-keyscan destination_ip_address`. Add content of `ssh-rsa` to client IP address' `~/.ssh/known_hosts` on the following format:
+On the client IP address, open your terminal and type `ssh-keyscan destination_ip_address`. Add content of `ssh-rsa` to client IP address' `~/.ssh/known_hosts` on the following format:
 
 ```shell
 destination_ip_address ssh-rsa copy_pasted_value_from_ssh-keyscan
@@ -115,6 +134,6 @@ sudo crontab -e
 # Remove everything in crontab
 crontab -r
 
-# Add cron job to cron table
-*/15 * * * * bash upload.sh local_file_path destination_directory >> ~/cron-logs/cron.log 2>&1
+# Uploads webcam image at minute 2, 17, 32, and 47 past every hour from 8 through 16
+02,17,32,47 8-16 * * * docker restart sobekkseter-upload
 ```
